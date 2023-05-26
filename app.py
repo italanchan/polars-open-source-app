@@ -43,14 +43,17 @@ app.layout = html.Div(
     style=style_utils.APP_STYLE,
     children=[
         dmc.Group(
-            style={'border-bottom': 'solid', 'bottom-border-color': '#FFFFFF',},
+            style={
+                "border-bottom": "solid",
+                "bottom-border-color": "#FFFFFF",
+            },
             children=[
                 dmc.Image(src=app.get_asset_url("plotly-dark.avif"), width=100),
                 dmc.Title("NYC Taxi Data", style={"margin-top": "1em"}),
             ],
         ),
         dmc.Center(
-            style={'margin-top': "2em"},
+            style={"margin-top": "2em"},
             children=dmc.Title(
                 "Browse Data",
             ),
@@ -114,12 +117,15 @@ app.layout = html.Div(
             dmc.Title(
                 "Plots",
             ),
-            style={"margin-bottom": "1em", "margin-top": "2em",},
+            style={
+                "margin-bottom": "1em",
+                "margin-top": "2em",
+            },
         ),
         dmc.Group(
             [
                 dmc.Button(
-                    "re-run vizualizations",
+                    "re-run visualizations",
                     id="viz-bttn",
                     variant="outline",
                     style={
@@ -138,7 +144,9 @@ app.layout = html.Div(
                 dmc.Group(
                     [
                         html.Div(
-                            dcc.Graph(id="mileage-time-graph", style={"height": "400px"}),
+                            dcc.Graph(
+                                id="mileage-time-graph", style={"height": "400px"}
+                            ),
                         ),
                         html.Div(
                             dcc.Graph(
@@ -208,10 +216,9 @@ def infinite_scroll(request, columnDefs):
     Output("request-dropoff-graph", "figure"),
     State("filter-model", "data"),
     Input("viz-bttn", "n_clicks"),
-    State("infinite-grid", "columnDefs"),
     manager=long_callback_manager,
 )
-def visualize(filter_model, n_clicks, columnDefs):
+def visualize(filter_model, n_clicks):
     columns = ["trip_time", "trip_miles", "driver_pay", "tips"]
     if filter_model:
         columns_to_filter = [col for col in filter_model]
