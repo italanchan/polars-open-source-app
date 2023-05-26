@@ -17,9 +17,7 @@ def scan_ldf(
     sort_model=None,
 ):
     ldf = DATA_SOURCE
-    ldf = ldf.with_columns(
-        pl.col("request_datetime").cast(pl.Date).alias("event_date")
-    )
+    ldf = ldf.with_columns(pl.col("request_datetime").cast(pl.Date).alias("event_date"))
     if columns:
         ldf = ldf.select(columns)
     if filter_model:
@@ -92,7 +90,6 @@ def parse_column_filter(filter_obj, col_name):
                 crit2 = filter_obj["filterTo"]
 
         if filter_obj["type"] == "contains":
-            # df = df.loc[df[col].str.contains(crit1)]
             lower = (crit1).lower()
             expr = pl.col(col_name).str.to_lowercase().str.contains(lower)
 
@@ -141,13 +138,9 @@ def parse_column_filter(filter_obj, col_name):
 
         elif filter_obj["type"] == "inRange":
             if filter_obj["filterType"] == "date":
-                expr = (pl.col(col_name) >= crit1) & (
-                    pl.col(col_name) <= crit2
-                )
+                expr = (pl.col(col_name) >= crit1) & (pl.col(col_name) <= crit2)
             else:
-                expr = (pl.col(col_name) >= crit1) & (
-                    pl.col(col_name) <= crit2
-                )
+                expr = (pl.col(col_name) >= crit1) & (pl.col(col_name) <= crit2)
         else:
             None
 
