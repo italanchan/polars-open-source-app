@@ -113,17 +113,11 @@ app.layout = html.Div(
                 dcc.Store(id="filter-model"),
             ],
         ),
-        dmc.Center(
-            dmc.Title(
-                "Plots",
-            ),
-            style={
-                "margin-bottom": "1em",
-                "margin-top": "2em",
-            },
-        ),
         dmc.Group(
             [
+                dmc.Title(
+                    "Plots",
+                ),
                 dmc.Button(
                     "re-run visualizations",
                     id="viz-bttn",
@@ -131,32 +125,37 @@ app.layout = html.Div(
                     style={
                         "border-color": "#FFD15F",
                         "color": "#FFD15F",
-                        "margin-bottom": "1em",
                     },
                 ),
             ],
-            style={"margin-top": "1em"},
+            position="center",
+            style={
+                "margin-bottom": "1em",
+                "margin-top": "2em",
+            },
         ),
-        dmc.LoadingOverlay(
-            overlayColor="black",
-            loaderProps={"variant": "dots"},
-            children=[
-                dmc.Group(
-                    [
-                        html.Div(
-                            dcc.Graph(
-                                id="mileage-time-graph", style={"height": "400px"}
+        dmc.Container(
+            dmc.LoadingOverlay(
+                overlayColor="black",
+                loaderProps={"variant": "dots"},
+                children=[
+                    dmc.Group(
+                        [
+                            html.Div(
+                                dcc.Graph(
+                                    id="mileage-time-graph", style={"height": "400px"}
+                                ),
                             ),
-                        ),
-                        html.Div(
-                            dcc.Graph(
-                                id="request-dropoff-graph",
-                                style={"height": "400px"},
+                            html.Div(
+                                dcc.Graph(
+                                    id="request-dropoff-graph",
+                                    style={"height": "400px"},
+                                ),
                             ),
-                        ),
-                    ]
-                )
-            ],
+                        ]
+                    )
+                ],
+            ),
         ),
     ],
 )
