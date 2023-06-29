@@ -152,9 +152,7 @@ def aggregate_on_trip_distance_time(ldf):
         ldf.with_columns(
             [
                 pl.col("trip_miles").round(1).alias("rounded_miles"),
-                pl.col("trip_time")
-                .apply(lambda x: round(x / 100, 0) * 100)
-                .alias("rounded_time"),
+                ((pl.col("trip_time") / 100).round(0) * 100).alias("rounded_time"),
             ]
         )
         .collect()
