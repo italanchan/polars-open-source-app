@@ -115,11 +115,8 @@ app.layout = html.Div(
         ),
         dmc.Group(
             [
-                dmc.Title(
-                    "Plots",
-                ),
                 dmc.Button(
-                    "re-run visualizations",
+                    "Refresh Plots",
                     id="viz-bttn",
                     variant="outline",
                     style={
@@ -134,28 +131,27 @@ app.layout = html.Div(
                 "margin-top": "2em",
             },
         ),
-        dmc.Container(
-            dmc.LoadingOverlay(
-                overlayColor="black",
-                loaderProps={"variant": "dots"},
-                children=[
-                    dmc.Group(
-                        [
-                            html.Div(
-                                dcc.Graph(
-                                    id="mileage-time-graph", style={"height": "400px"}
-                                ),
+        dmc.LoadingOverlay(
+            overlayColor="black",
+            loaderProps={"variant": "dots"},
+            children=[
+                dmc.Group(
+                    [
+                        html.Div(
+                            dcc.Graph(
+                                id="mileage-time-graph",
                             ),
-                            html.Div(
-                                dcc.Graph(
-                                    id="request-dropoff-graph",
-                                    style={"height": "400px"},
-                                ),
+                            style={"width": "48%"},
+                        ),
+                        html.Div(
+                            dcc.Graph(
+                                id="request-dropoff-graph",
                             ),
-                        ]
-                    )
-                ],
-            ),
+                            style={"width": "48%"},
+                        ),
+                    ]
+                )
+            ],
         ),
     ],
 )
