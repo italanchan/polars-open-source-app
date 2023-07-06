@@ -1,11 +1,47 @@
 import polars as pl
 import os
 
-if "DASH_APP_NAME" in os.environ:
-    filepath = os.path.join(os.sep, "mount", "fhvhv_data.arrow")
-    DATA_SOURCE = pl.scan_ipc(filepath)
-else:
-    DATA_SOURCE = pl.scan_ipc("data/fhvhv_data_mini.arrow")
+
+try:
+    DATA_SOURCE = pl.scan_ipc("data/fhvhv_data.arrow")
+except FileNotFoundError:
+    print(
+        """
+          Warning!
+          Could not read arrow data source, download the latest "High Volume For-Hire Vehicle Trip Records" parquet file
+          from https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page and 
+          convert it to an arrow file in location /data/fhvhv_data.arrow
+          Checkout README.md on how to create the arrow file.
+          """
+    )
+    DATA_SOURCE = pl.LazyFrame(
+        schema=[
+            "hvfhs_license_num",
+            "dispatching_base_num",
+            "originating_base_num",
+            "request_datetime",
+            "on_scene_datetime",
+            "pickup_datetime",
+            "dropoff_datetime",
+            "PULocationID",
+            "DOLocationID",
+            "trip_miles",
+            "trip_time",
+            "base_passenger_fare",
+            "tolls",
+            "bcf",
+            "sales_tax",
+            "congestion_surcharge",
+            "airport_fee",
+            "tips",
+            "driver_pay",
+            "shared_request_flag",
+            "shared_match_flag",
+            "access_a_ride_flag",
+            "wav_request_flag",
+            "wav_match_flag",
+        ]
+    )
 
 
 column_names = DATA_SOURCE.columns
