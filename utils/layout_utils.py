@@ -46,15 +46,17 @@ def render_columns_modal(
                     )
                     for col in all_columns
                 ),
-                html.Button(
+                dmc.Button(
                     "apply",
                     id="apply-bttn",
                     style={
+                        "border-color": "#FFD15F",
+                        "color": "#FFD15F",
                         "margin-bottom": "1em",
                     },
+                    variant="outline",
                 ),
             ],
-            # id="select-column-modal",
             style={
                 "width": "400px",
                 "margin": "0",
