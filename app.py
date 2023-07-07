@@ -39,121 +39,125 @@ app.title = "Dash app"
 server = app.server  # expose server variable for Procfile
 
 
-app.layout = html.Div(
-    style=style_utils.APP_STYLE,
-    children=[
-        dmc.Group(
-            style={
-                "border-bottom": "solid",
-                "bottom-border-color": "#FFFFFF",
-            },
-            children=[
-                dmc.Image(src=app.get_asset_url("plotly-dark.avif"), width=100),
-                dmc.Title("NYC Taxi Data", style={"margin-top": "1em"}),
-            ],
-        ),
-        dmc.Center(
-            style={"margin-top": "2em"},
-            children=dmc.Title(
-                "Browse Data",
+app.layout = dmc.MantineProvider(
+    theme={"colorScheme": "dark"},
+    children=html.Div(
+        style=style_utils.APP_STYLE,
+        children=[
+            dmc.Group(
+                style={
+                    "border-bottom": "solid",
+                    "bottom-border-color": "#FFFFFF",
+                },
+                children=[
+                    dmc.Image(src=app.get_asset_url("plotly-dark.avif"), width=100),
+                    dmc.Title("NYC Taxi Data", style={"margin-top": "1em"}),
+                ],
             ),
-        ),
-        dmc.Menu(
-            id="columns-selection-menu",
-            clickOutsideEvents=False,
-            closeDelay=False,
-            closeOnClickOutside=False,
-            closeOnEscape=False,
-            closeOnItemClick=False,
-            styles={
-                "dropdown": {
-                    "background-color": "#2d3038",
-                    "z-index": 500,
-                }
-            },
-            children=[
-                dmc.MenuTarget(
+            dmc.Center(
+                style={"margin-top": "2em"},
+                children=dmc.Title(
+                    "Browse Data",
+                ),
+            ),
+            dmc.Menu(
+                id="columns-selection-menu",
+                clickOutsideEvents=False,
+                closeDelay=False,
+                closeOnClickOutside=False,
+                closeOnEscape=False,
+                closeOnItemClick=False,
+                styles={
+                    "dropdown": {
+                        "background-color": "#2d3038",
+                        "background-color:hover": "#2d3038",
+                        "z-index": 500,
+                    }
+                },
+                children=[
+                    dmc.MenuTarget(
+                        dmc.Button(
+                            "select columns",
+                            id="open-modal-bttn",
+                            variant="outline",
+                            style={
+                                "border-color": "#FFD15F",
+                                "color": "#FFD15F",
+                                "margin-bottom": "1em",
+                            },
+                        ),
+                    ),
+                    dmc.MenuDropdown(
+                        children=[
+                            dmc.MenuItem(
+                                style={
+                                    "padding": "0",
+                                },
+                                children=layout_utils.render_columns_modal(),
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+            dmc.LoadingOverlay(
+                overlayColor="black",
+                loaderProps={"variant": "dots"},
+                children=[
+                    dag.AgGrid(
+                        id="infinite-grid",
+                        rowModelType="infinite",
+                        enableEnterpriseModules=True,
+                        columnDefs=layout_utils.generate_column_defintions(),
+                        pagination=True,
+                        paginationPageSize=100,
+                        className="ag-theme-alpine-dark",
+                        defaultColDef={"filter": True},
+                    ),
+                    dcc.Store(id="filter-model"),
+                ],
+            ),
+            dmc.Group(
+                [
                     dmc.Button(
-                        "select columns",
-                        id="open-modal-bttn",
+                        "Refresh Plots",
+                        id="viz-bttn",
                         variant="outline",
                         style={
                             "border-color": "#FFD15F",
                             "color": "#FFD15F",
-                            "margin-bottom": "1em",
                         },
                     ),
-                ),
-                dmc.MenuDropdown(
-                    children=[
-                        dmc.MenuItem(
-                            style={
-                                "padding": "0",
-                            },
-                            children=layout_utils.render_columns_modal(),
-                        ),
-                    ],
-                ),
-            ],
-        ),
-        dmc.LoadingOverlay(
-            overlayColor="black",
-            loaderProps={"variant": "dots"},
-            children=[
-                dag.AgGrid(
-                    id="infinite-grid",
-                    rowModelType="infinite",
-                    enableEnterpriseModules=True,
-                    columnDefs=layout_utils.generate_column_defintions(),
-                    pagination=True,
-                    paginationPageSize=100,
-                    className="ag-theme-alpine-dark",
-                    defaultColDef={"filter": True},
-                ),
-                dcc.Store(id="filter-model"),
-            ],
-        ),
-        dmc.Group(
-            [
-                dmc.Button(
-                    "Refresh Plots",
-                    id="viz-bttn",
-                    variant="outline",
-                    style={
-                        "border-color": "#FFD15F",
-                        "color": "#FFD15F",
-                    },
-                ),
-            ],
-            position="center",
-            style={
-                "margin-bottom": "1em",
-                "margin-top": "2em",
-            },
-        ),
-        dmc.LoadingOverlay(
-            overlayColor="black",
-            loaderProps={"variant": "dots"},
-            children=[
-                dmc.Group(
-                    [
-                        html.Div(
-                            dcc.Graph(
-                                id="mileage-time-graph",
+                ],
+                position="center",
+                style={
+                    "margin-bottom": "1em",
+                    "margin-top": "2em",
+                },
+            ),
+            dmc.LoadingOverlay(
+                overlayColor="black",
+                loaderProps={"variant": "dots"},
+                children=[
+                    dmc.Group(
+                        [
+                            html.Div(
+                                dcc.Graph(
+                                    id="mileage-time-graph",
+                                ),
+                                style={"width": "48%"},
                             ),
-                            style={"width": "48%"},
-                        ),
-                        html.Div(
-                            dcc.Graph(
-                                id="request-dropoff-graph",
+                            html.Div(
+                                dcc.Graph(
+                                    id="request-dropoff-graph",
+                                ),
+                                style={"width": "48%"},
                             ),
-                            style={"width": "48%"},
-                        ),
-                    ]
-                )
-            ],
-        ),
-    ],
+                        ]
+                    )
+                ],
+            ),
+        ],
+    ),
 )
 
 

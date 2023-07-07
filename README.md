@@ -7,9 +7,6 @@ Useful links:
 - [Polars python API](https://pola-rs.github.io/polars/py-polars/html/reference/)
 - [NYC taxi data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page)
   
-## The Data
-
-
 
 ## Development
 
@@ -21,15 +18,14 @@ pip install -r requirements-dev.txt
 
 ## Running this application
 
-
-
-1. Install the Python dependencies
+1. ### Install the Python dependencies
 
     ```
     pip install -r requirements.txt 
     ```
 
-2. Convert one or multiple of the parquet files named fhvhv_tripdata_YYYY-MM.parquet from the [High Volume for Hire NYC Taxi Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) to an arrow file called fhvhv_data.arrow and add to data folder in project directory
+2. ### Prepare data source
+   Convert one or multiple of the parquet files named fhvhv_tripdata_YYYY-MM.parquet from the [High Volume for Hire NYC Taxi Data](https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page) to an arrow file called fhvhv_data.arrow and add to data folder in project directory
 
 
     ```python
@@ -38,7 +34,7 @@ pip install -r requirements-dev.txt
     df.write_ipc("data/fhvhv_data.arrow")
     ```
 
-3. Run the following command:
+3. ### Run the app:
 
     ```python
     python app.py
