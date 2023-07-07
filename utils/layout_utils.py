@@ -47,7 +47,7 @@ def render_columns_modal(
                     for col in all_columns
                 ),
                 dmc.Button(
-                    "apply",
+                    "Apply",
                     id="apply-bttn",
                     style={
                         "border-color": "#FFD15F",

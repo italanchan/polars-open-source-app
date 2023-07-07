@@ -67,17 +67,11 @@ app.layout = dmc.MantineProvider(
                 closeOnClickOutside=False,
                 closeOnEscape=False,
                 closeOnItemClick=False,
-                styles={
-                    "dropdown": {
-                        "background-color": "#2d3038",
-                        "background-color:hover": "#2d3038",
-                        "z-index": 500,
-                    }
-                },
+                styles={"dropdown": {"background-color": "#2d3038"}},
                 children=[
                     dmc.MenuTarget(
                         dmc.Button(
-                            "select columns",
+                            "Select Columns",
                             id="open-modal-bttn",
                             variant="outline",
                             style={
@@ -102,6 +96,7 @@ app.layout = dmc.MantineProvider(
             dmc.LoadingOverlay(
                 overlayColor="black",
                 loaderProps={"variant": "dots"},
+                zIndex=299,
                 children=[
                     dag.AgGrid(
                         id="infinite-grid",
@@ -137,6 +132,7 @@ app.layout = dmc.MantineProvider(
             dmc.LoadingOverlay(
                 overlayColor="black",
                 loaderProps={"variant": "dots"},
+                zIndex=299,
                 children=[
                     dmc.Group(
                         [
